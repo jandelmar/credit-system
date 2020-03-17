@@ -7,19 +7,39 @@ interface User {
 }
 type Users = Map<string, User>
 
-export const getUsersFromStore = (): Users => {
-    return new Map(JSON.parse(fs.readFileSync(config.pathToStoredUsers).toString()))
-}
 
-export const saveUsersToStore = (users: Users) => {
-    fs.writeFileSync(config.pathToStoredUsers, JSON.stringify([...users]))
-}
-
-export const createUser = (name: string): User => ({
+const createUser = (name: string): User => ({
     name,
     credit: 0
 })
 
-const addUser = (user: User, users: Users) => ({
-    users
-})
+const getUsers = () => {
+    return userStore
+}
+
+const addUser = (user: User) => {
+    userStore.set(user.name, user) // TODO: check if user exists
+    saveUsersToJSON(userStore)
+}
+
+const removeUser = (user: User) => {
+    userStore.delete(user.name) // TODO: check if user exists
+    saveUsersToJSON(userStore)
+}
+
+const loadUsersFromJSON = (): Users => {
+    return new Map(JSON.parse(fs.readFileSync(config.pathToStoredUsers).toString()))
+}
+
+const saveUsersToJSON = (users: Users) => {
+    fs.writeFileSync(config.pathToStoredUsers, JSON.stringify([...users]))
+}
+
+let userStore: Users = loadUsersFromJSON()
+
+export default {
+    createUser,
+    getUsers,
+    addUser,
+    removeUser
+}

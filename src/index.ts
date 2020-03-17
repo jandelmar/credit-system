@@ -1,5 +1,5 @@
-import config from "./config"
-import { getUsersFromStore } from "./User"
+import User from "./User"
 
-const Users = getUsersFromStore()
-console.log(Users)
+User.getUsers()
+User.addUser(User.createUser("Franta"))
+console.log(User.getUsers())

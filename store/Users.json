@@ -1,4 +1,1 @@
-[
-    ["honza",{"name":"Honza","credit":"150"}],
-    ["kristy",{"name":"Kristy","credit":"10"}]
-]
+[["Honza",{"name":"Honza","credit":0}],["Petr",{"name":"Petr","credit":0}],["Kristy",{"name":"Kristy","credit":150}],["Pepa",{"name":"Pepa","credit":0}],["Pepas",{"name":"Pepas","credit":0}],["Franta",{"name":"Franta","credit":0}]]
