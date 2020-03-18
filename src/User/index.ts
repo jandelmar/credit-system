@@ -19,23 +19,31 @@ const getUsers = () => {
 
 const addUser = (user: User) => {
     userStore.set(user.name, user) // TODO: check if user exists
-    saveUsersToJSON(userStore)
+    saveUsersToJSON(config.pathToStoredUsers, userStore)
 }
 
 const removeUser = (user: User) => {
     userStore.delete(user.name) // TODO: check if user exists
-    saveUsersToJSON(userStore)
+    saveUsersToJSON(config.pathToStoredUsers, userStore)
 }
 
-const loadUsersFromJSON = (): Users => {
-    return new Map(JSON.parse(fs.readFileSync(config.pathToStoredUsers).toString()))
+const initializeUsersJSON = (path: string) => {
+    if(!fs.existsSync(path)) {
+        console.log("initialize", path)
+        fs.writeFileSync(path, JSON.stringify([]))
+    }
 }
 
-const saveUsersToJSON = (users: Users) => {
-    fs.writeFileSync(config.pathToStoredUsers, JSON.stringify([...users]))
+const loadUsersFromJSON = (path: string): Users => {
+    return new Map(JSON.parse(fs.readFileSync(path).toString()))
 }
 
-let userStore: Users = loadUsersFromJSON()
+const saveUsersToJSON = (path: string, users: Users) => {
+    fs.writeFileSync(path, JSON.stringify([...users]))
+}
+
+initializeUsersJSON(config.pathToStoredUsers)
+let userStore: Users = loadUsersFromJSON(config.pathToStoredUsers)
 
 export default {
     createUser,
